@@ -6,7 +6,8 @@
 
 ## Usage
 1. `cp .env.example .env`
-2. `Make appropriate changes to the values in .env file`
+2. Make appropriate changes to the values in .env file
 3. `touch acme.json`
 4. `chmod 600 acme.json`
-5. `docker-compose up -d`
+5. Create the docker network by runnung this command in your terminal: `docker network create traefik_host_network`
+6. `docker-compose up -d`
