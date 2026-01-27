@@ -13,8 +13,8 @@ services:
       - "--certificatesresolvers.${RESOLVER_NAME}.acme.email=${CERT_EMAIL}"
       - "--certificatesresolvers.${RESOLVER_NAME}.acme.storage=/letsencrypt/acme.json"
     labels:
-      - "--http.middlewares.force-https.redirectscheme.scheme=https"
-      - "--http.middlewares.force-https.redirectscheme.permanent=true"
+      - "traefik.http.middlewares.force-redirectscheme.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.force-redirectscheme.redirectscheme.permanent=true"
     ports:
       - "80:80"
       - "443:443"
