@@ -9,11 +9,12 @@ services:
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
-      - "--http.middlewares.force-https.redirectscheme.scheme=https"
-      - "--http.middlewares.force-https.redirectscheme.permanent=true"
       - "--certificatesresolvers.${RESOLVER_NAME}.acme.tlschallenge=true"
       - "--certificatesresolvers.${RESOLVER_NAME}.acme.email=${CERT_EMAIL}"
       - "--certificatesresolvers.${RESOLVER_NAME}.acme.storage=/letsencrypt/acme.json"
+    labels:
+      - "--http.middlewares.force-https.redirectscheme.scheme=https"
+      - "--http.middlewares.force-https.redirectscheme.permanent=true"
     ports:
       - "80:80"
       - "443:443"
