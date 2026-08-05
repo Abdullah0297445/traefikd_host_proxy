@@ -9,9 +9,21 @@ services:
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
-      - "--certificatesresolvers.${RESOLVER_NAME}.acme.tlschallenge=true"
+      - "--certificatesresolvers.${RESOLVER_NAME}.acme.dnschallenge=true"
+      - "--certificatesresolvers.${RESOLVER_NAME}.acme.dnschallenge.provider=route53"
+      # Force public resolvers for the propagation pre-check (this box issues
+      # for two zones: hirecinch.com + carteblanche.tech).
+      - "--certificatesresolvers.${RESOLVER_NAME}.acme.dnschallenge.resolvers=1.1.1.1:53,8.8.8.8:53"
       - "--certificatesresolvers.${RESOLVER_NAME}.acme.email=${CERT_EMAIL}"
       - "--certificatesresolvers.${RESOLVER_NAME}.acme.storage=/letsencrypt/acme.json"
+    environment:
+      # Route53 DNS-01 credentials (read by traefik's lego ACME client).
+      - "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}"
+      - "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}"
+      - "AWS_REGION=${AWS_REGION}"
+      # Do NOT set AWS_HOSTED_ZONE_ID — this box now issues for TWO zones
+      # (hirecinch.com + carteblanche.tech); leaving it unset lets lego
+      # auto-detect the correct public hosted zone per FQDN.
     labels:
       - "traefik.enable=true"
       - "traefik.http.middlewares.force-secure.redirectscheme.scheme=https"
