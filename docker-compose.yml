@@ -5,6 +5,10 @@ services:
     restart: always
     command:
       - "--api.insecure=true"
+      # INFO (not the ERROR default) so ACME issuance and renewal are visible in
+      # `docker logs traefik`. At ERROR a successful renewal logs nothing, which
+      # is indistinguishable from one that never ran.
+      - "--log.level=INFO"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
