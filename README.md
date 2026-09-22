@@ -1,5 +1,10 @@
 # Traefik host proxy
 
+> **Superseded by [userland](https://github.com/Abdullah0297445/userland)**, which runs traefik as one of its products.
+> This repo takes version bumps only, and will be archived. A stack already running from it
+> keeps running. userland is not a drop-in replacement: its container, network and volume
+> names differ, so moving a running stack onto it is a migration, not a `git pull`.
+
 - To be run on a server with a public IP address.
 - Takes care of routing traffic to the appropriate containers.
 - Supports HTTPS via letsencrypt.
